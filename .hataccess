@@ -1,4 +1,0 @@
-# Paksa web server untuk langsung redirect domain utama ke file index.php
-DirectoryIndex index.php
-RewriteEngine On
-RewriteRule ^$ index.php [L,R=301]
