@@ -1,19 +1,18 @@
 <?php
-// 1. SCRIPT SAKTI: Paksa tampilkan eror jika ada yang salah ketik
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// 2. Load file template atas dan proteksi login
 include 'includes/header.php'; 
 include 'includes/sidebar.php'; 
+include 'config/koneksi.php';
 ?>
 
 <div class="col-md-10 p-4">
-    <h2 class="mb-4" style="font-weight: 500;"></h2>
+    <h2 class="mb-4 fw-medium">Dashboard Transaksi</h2>
     
     <div class="card p-4 shadow-sm border-0 bg-white">
-        <h4 class="mb-3 text-secondary" style="font-weight: 500;">Daftar Transaksi Aktif</h4>
+        
         
         <div class="d-flex justify-content-between mb-3">
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTransaksi">
@@ -23,7 +22,7 @@ include 'includes/sidebar.php';
         </div>
 
         <div class="table-responsive">
-            <table id="tabelTransaksi" class="table table-striped table-hover align-middle" style="width:100%">
+            <table id="tabelTransaksi" class="table table-striped table-hover align-middle w-full">
                 <thead class="table-dark">
                     <tr>
                         <th>ID Transaksi</th>
@@ -37,7 +36,6 @@ include 'includes/sidebar.php';
                 </thead>
                 <tbody>
                     <?php
-                    // Query dinamis mengambil data dari database rentalPS
                     $query_tampil = "SELECT transaksi.*, pelanggan.nama_pelanggan, unit_ps.jenis_ps 
                                      FROM transaksi 
                                      JOIN pelanggan ON transaksi.id_pelanggan = pelanggan.id
@@ -68,7 +66,7 @@ include 'includes/sidebar.php';
                                             <i class="fa fa-check"></i> Selesai
                                         </a>
                                     <?php } else { ?>
-                                        <span class="badge bg-success"><i class="fa fa-check-double"></i> Sukse</span>
+                                        <span class="badge bg-success"><i class="fa fa-check-double"></i> Sukses</span>
                                     <?php } ?>
                                 </td>
                             </tr>
@@ -86,7 +84,7 @@ include 'includes/sidebar.php';
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" style="font-weight: 500;">Form Tambah Transaksi</h5>
+                <h5 class="modal-title fw-medium">Form Tambah Transaksi</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="modul/proses_transaksi.php" method="POST">
@@ -100,7 +98,6 @@ include 'includes/sidebar.php';
                         <select class="form-select" name="id_ps" required>
                             <option value=""> Pilih Unit PS </option>
                             <?php
-            
                             $query_ps = mysqli_query($koneksi, "SELECT * FROM unit_ps WHERE status = 'ready'");
                             while($ps = mysqli_fetch_assoc($query_ps)) {
                                 echo "<option value='".$ps['id']."'>".$ps['jenis_ps']." (".$ps['nomor_seri'].") - Rp ".number_format($ps['harga_per_jam'], 0, ',', '.')."/jam</option>";
@@ -115,7 +112,7 @@ include 'includes/sidebar.php';
                     
                     <div class="mb-3">
                         <label class="form-label d-block">Signature Canvas </label>
-                        <div class="canvas-container rounded">
+                        <div class="canvas-container">
                             <canvas id="signaturePad"></canvas>
                         </div>
                         <div class="text-end mt-2">
@@ -134,7 +131,6 @@ include 'includes/sidebar.php';
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
@@ -147,18 +143,16 @@ include 'includes/sidebar.php';
 
 <script>
     $(document).ready(function() {
-        // 1. Inisialisasi DataTables + Tombol Konversi
         var table = $('#tabelTransaksi').DataTable({
+            "ordering": false,
             buttons: [
-                { extend: 'excel', className: 'btn btn-success btn-sm' },
-                { extend: 'pdf', className: 'btn btn-danger btn-sm' },
-                { extend: 'print', className: 'btn btn-dark btn-sm' }
+                { extend: 'pdf', className: 'btn btn-export-pdf btn-sm' }
+                
             ],
-            "order": [[0, "desc"]] // Mengurutkan dari transaksi terbaru
+            "order": [[0, "desc"]] 
         });
         table.buttons().container().appendTo('#tombolExport');
 
-        // 2. LOGIKA FIX CANVAS TTD (Nunggu Modal Selesai Transisi Fade-in)
         const canvas = document.getElementById('signaturePad');
         const ctx = canvas.getContext('2d');
         let drawing = false;
@@ -171,18 +165,15 @@ include 'includes/sidebar.php';
             ctx.strokeStyle = '#000000';
         }
 
-        // Jalankan resize saat modal terbuka penuh
         $('#modalTransaksi').on('shown.bs.modal', function () {
             resizeCanvas();
         });
 
-        // 3. EVENT DETEKSI CORETAN MOUSE
         canvas.addEventListener('mousedown', startDrawing);
         canvas.addEventListener('mousemove', draw);
         canvas.addEventListener('mouseup', stopDrawing);
         canvas.addEventListener('mouseleave', stopDrawing);
 
-        // EVENT DETEKSI SENTUHAN (Untuk HP / Android Kasir)
         canvas.addEventListener('touchstart', function(e) {
             var touch = e.touches[0];
             var mouseEvent = new MouseEvent("mousedown", {
@@ -229,12 +220,10 @@ include 'includes/sidebar.php';
             if (drawing) {
                 drawing = false;
                 ctx.beginPath();
-                // Transfer gambar canvas ke hidden input data URL Base64
                 document.getElementById('ttd_image').value = canvas.toDataURL();
             }
         }
 
-        // Tombol Hapus Coretan TTD
         document.getElementById('clearCanvas').addEventListener('click', () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             document.getElementById('ttd_image').value = '';

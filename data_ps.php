@@ -13,7 +13,6 @@ include 'config/koneksi.php';
     
     <div class="card p-4 shadow-sm border-0 bg-white mb-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="text-secondary m-0" style="font-weight: 500;">Daftar Inventaris Unit</h4>
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambahPS">
                 <i class="fa fa-plus me-1"></i> Tambah Unit PS
             </button>
@@ -41,7 +40,7 @@ include 'config/koneksi.php';
                         ?>
                         <tr>
                             <td><?php echo $no++; ?></td>
-                            <td><strong><?php echo $row['nomor_seri']; ?></strong></td>
+                            <td><span class="nomor-seri-bold"><?php echo $row['nomor_seri']; ?></span></td>
                             <td><span class="badge bg-primary"><?php echo $row['jenis_ps']; ?></span></td>
                             <td>Rp <?php echo number_format($row['harga_per_jam'], 0, ',', '.'); ?></td>
                             <td>
@@ -58,7 +57,7 @@ include 'config/koneksi.php';
                                 if (!empty($row['foto_kondisi'])) {
                                     $array_foto = explode(',', $row['foto_kondisi']);
                                     $jumlah_foto = count($array_foto);
-                                    echo "<button class='btn btn-outline-secondary btn-sm' data-bs-toggle='modal' data-bs-target='#modalLihatFoto".$row['id']."'>
+                                    echo "<button class='btn btn-outline-secondary btn-sm btn-foto-hover' data-bs-toggle='modal' data-bs-target='#modalLihatFoto".$row['id']."'>
                                             <i class='fa fa-images me-1'></i> Lihat ($jumlah_foto)
                                           </button>";
                                 } else {
@@ -67,9 +66,7 @@ include 'config/koneksi.php';
                                 ?>
                             </td>
                             <td>
-                                <button class="btn btn-warning btn-sm text-dark fw-bold me-1" data-bs-toggle="modal" data-bs-target="#modalEditPS<?php echo $row['id']; ?>">Edit
-                               </button>
-                                </button>
+                                <button class="btn btn-warning btn-sm text-dark fw-bold me-1" data-bs-toggle="modal" data-bs-target="#modalEditPS<?php echo $row['id']; ?>">Edit</button>
                                 <a href="modul/proses_ps.php?aksi=hapus&id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus unit ini, Bang?')">
                                     hapus
                                 </a>
@@ -159,51 +156,11 @@ include 'config/koneksi.php';
     </div>
 
     <div class="card p-4 shadow-sm border-0 bg-white">
-        <h4 class="mb-3 text-secondary" style="font-weight: 500;"></h4>
         
-        <div class="ratio ratio-16x9 rounded-3 overflow-hidden shadow-sm" style="max-height: 400px;">
-            <iframe src="https://www.youtube.com/embed/c51ND9Hdbw0" 
-                    title="Video Tutorial Aplikasi" 
+        <div class="ratio ratio-16x9 rounded-3 overflow-hidden shadow-sm video-trailer-container">
+            <iframe src="https://www.youtube.com/embed/IwFsn2cRb0E" 
+                    title="Video Trailer Game" 
                     allowfullscreen></iframe>
-        </div>
-    </div>
-    </div>
-
-<div class="modal fade" id="modalTambahPS" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" style="font-weight: 500;">Form Tambah Unit PS</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="modul/proses_ps.php?aksi=tambah" method="POST" enctype="multipart/form-data">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Nomor Seri Unit</label>
-                        <input type="text" class="form-control" name="nomor_seri" placeholder="Contoh: PS5-004" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Jenis Console</label>
-                        <select class="form-select" name="jenis_ps" required>
-                            <option value="">-- Pilih Jenis --</option>
-                            <option value="PS3">PlayStation 3</option>
-                            <option value="PS4">PlayStation 4</option>
-                            <option value="PS5">PlayStation 5</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Harga Sewa Per Jam (Rp)</label>
-                        <input type="number" class="form-control" name="harga_per_jam" placeholder="Contoh: 10000" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Upload Foto Kondisi Unit</label>
-                        <input type="file" class="form-control" name="foto_kondisi[]" accept="image/*" multiple required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary w-100 py-2">Simpan Data Unit</button>
-                </div>
-            </form>
         </div>
     </div>
 </div>
@@ -215,6 +172,7 @@ include 'config/koneksi.php';
 <script>
     $(document).ready(function() {
         $('#tabelPS').DataTable({
+            "ordering": false,
             "language": {
                 "search": "Cari Unit PS:"
             }

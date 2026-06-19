@@ -4,9 +4,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// 2. Load file template atas dan proteksi login
+// Load komponen atas dan koneksi database
 include 'includes/header.php'; 
 include 'includes/sidebar.php'; 
+include 'config/koneksi.php';
 ?>
 
 <div class="col-md-10 p-4">
@@ -14,7 +15,6 @@ include 'includes/sidebar.php';
     
     <div class="card p-4 shadow-sm border-0 bg-white">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="text-secondary m-0" style="font-weight: 500;">Daftar Pelanggan Terdaftar</h4>
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambahPelanggan">
                 <i class="fa fa-plus me-1"></i> Tambah Pelanggan
             </button>
@@ -34,22 +34,20 @@ include 'includes/sidebar.php';
                 <tbody>
                     <?php
                     $no = 1;
-                    // Tarik data pelanggan dari database
+                    // Tarik data pelanggan dari database rentalPS
                     $query_pelanggan = mysqli_query($koneksi, "SELECT * FROM pelanggan ORDER BY id DESC");
                     
                     while ($row = mysqli_fetch_assoc($query_pelanggan)) {
                         ?>
                         <tr>
                             <td><?php echo $no++; ?></td>
-                            <td><strong><?php echo $row['nik_ktp']; ?></strong></td>
+                            <td><span class="id-pelanggan-bold"><?php echo $row['nik_ktp']; ?></span></td>
                             <td><?php echo $row['nama_pelanggan']; ?></td>
                             <td><?php echo $row['no_hp']; ?></td>
                             <td>
-                                <button class="btn btn-warning btn-sm text-dark" data-bs-toggle="modal" data-bs-target="#modalEditPelanggan<?php echo $row['id']; ?>">
-                                    <i class="fa fa-edit"></i>
-                                </button>
+                                <button class="btn btn-warning btn-sm text-dark fw-bold me-1" data-bs-toggle="modal" data-bs-target="#modalEditPelanggan<?php echo $row['id']; ?>">Edit</button>
                                 <a href="modul/proses_pelanggan.php?aksi=hapus&id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data pelanggan ini, Bang?')">
-                                    <i class="fa fa-trash"></i>
+                                    hapus
                                 </a>
                             </td>
                         </tr>
@@ -129,7 +127,12 @@ include 'includes/sidebar.php';
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#tabelPelanggan').DataTable();
+        $('#tabelPelanggan').DataTable({
+            "ordering": false,
+            "language": {
+                "search": "Cari Pelanggan:"
+            }
+        });
     });
 </script>
 </div>

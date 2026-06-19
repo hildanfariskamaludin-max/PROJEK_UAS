@@ -1,0 +1,94 @@
+
+
+/* 1. HALAMAN LOGIN      */
+body {
+    background-color: #f8f9fa;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 35px;
+    border-radius: 10px;
+    border: 1px solid #dee2e6;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+.btn-primary {
+    background-color: #0d6efd;
+    border: none;
+}
+.btn-primary:hover {
+    background-color: #0b5ed7;
+}
+
+/*   HALAMAN dashboard  */
+body.dashboard-page {
+    background-color: #f4f6f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Kotak pembungkus area Signature Pad */
+.canvas-container {
+    border: 2px dashed #ccc;
+    background-color: #fafafa;
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+#signaturePad {
+    cursor: crosshair;
+    display: block;
+    background-color: #ffffff;
+}
+/* Pengaturan ketebalan font untuk semua judul/sub-judul */
+.fw-medium {
+    font-weight: 500;
+}
+
+/* Memaksa lebar tabel memenuhi 100% kontainer */
+.w-full {
+    width: 100% !important;
+}
+
+/* Kustomisasi tombol ekspor DataTables agar tidak melar */
+.btn-export-excel {
+    background-color: #198754 !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+.btn-export-pdf {
+    background-color: #dc3545 !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+.btn-export-print {
+    background-color: #212529 !important;
+    color: #ffffff !important;
+}
+
+/* =================================================================== */
+/* 3. KODE CSS KHUSUS HALAMAN DATA UNIT PS (BARU)                     */
+/* =================================================================== */
+
+/* Pengaturan batas maksimal tinggi pemutar video agar tidak memakan ruang */
+.video-trailer-container {
+    max-height: 400px;
+}
+
+/* Modifikasi teks cetak tebal untuk nomor seri console */
+.nomor-seri-bold {
+    font-weight: 700;
+}
+
+/* Memastikan kursor berbentuk pointer saat hover tombol foto */
+.btn-foto-hover {
+    cursor: pointer;
+}
