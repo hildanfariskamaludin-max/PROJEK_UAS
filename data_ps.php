@@ -34,7 +34,7 @@ include 'config/koneksi.php';
                 <tbody>
                     <?php
                     $no = 1;
-                    $query_ps = mysqli_query($koneksi, "SELECT * FROM unit_ps ORDER BY id DESC");
+                    $query_ps = mysqli_query($koneksi, "SELECT * FROM unitps_hildan_2430511059 ORDER BY id DESC");
                     
                     while ($row = mysqli_fetch_assoc($query_ps)) {
                         ?>
@@ -67,7 +67,7 @@ include 'config/koneksi.php';
                             </td>
                             <td>
                                 <button class="btn btn-warning btn-sm text-dark fw-bold me-1" data-bs-toggle="modal" data-bs-target="#modalEditPS<?php echo $row['id']; ?>">Edit</button>
-                                <a href="modul/proses_ps.php?aksi=hapus&id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus unit ini, Bang?')">
+                                <a href="modul/proses_ps.php?aksi=hapus&id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus unit ini ?')">
                                     hapus
                                 </a>
                             </td>
@@ -156,11 +156,59 @@ include 'config/koneksi.php';
     </div>
 
     <div class="card p-4 shadow-sm border-0 bg-white">
-        
         <div class="ratio ratio-16x9 rounded-3 overflow-hidden shadow-sm video-trailer-container">
             <iframe src="https://www.youtube.com/embed/IwFsn2cRb0E" 
                     title="Video Trailer Game" 
                     allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalTambahPS" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="font-weight: 500;">Form Tambah Data Unit PS</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="modul/proses_ps.php?aksi=tambah" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Nomor Seri Unit</label>
+                        <input type="text" class="form-control" name="nomor_seri" placeholder="Masukkan nomor seri..." required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Jenis Console</label>
+                        <select class="form-select" name="jenis_ps" required>
+                            <option value="" selected disabled>Pilih Jenis PS</option>
+                            <option value="PS3">PlayStation 3</option>
+                            <option value="PS4">PlayStation 4</option>
+                            <option value="PS5">PlayStation 5</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Harga Sewa Per Jam (Rp)</label>
+                        <input type="number" class="form-control" name="harga_per_jam" placeholder="0" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Status Unit</label>
+                        <select class="form-select" name="status" required>
+                            <option value="ready" selected>Ready</option>
+                            <option value="disewa">Disewa</option>
+                            <option value="maintenance">Maintenance</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Foto Kondisi</label>
+                        <input type="file" class="form-control" name="foto_kondisi[]" accept="image/*" multiple>
+                        <div class="form-text text-muted">Bisa memilih lebih dari 1 foto sekaligus.</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary px-4">Simpan Unit</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

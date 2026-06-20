@@ -30,7 +30,7 @@ if ($aksi == 'tambah') {
     }
     $foto_string = implode(',', $daftar_nama_foto);
 
-    $query_tambah = "INSERT INTO unit_ps (nomor_seri, jenis_ps, harga_per_jam, status, foto_kondisi) VALUES ('$nomor_seri', '$jenis_ps', '$harga_per_jam', '$status', '$foto_string')";
+    $query_tambah = "INSERT INTO unitps_hildan_2430511059 (nomor_seri, jenis_ps, harga_per_jam, status, foto_kondisi) VALUES ('$nomor_seri', '$jenis_ps', '$harga_per_jam', '$status', '$foto_string')";
     if (mysqli_query($koneksi, $query_tambah)) {
         echo "<script>alert('Data Unit PS Berhasil Disimpan!'); window.location.href = '../data_ps.php';</script>";
     }
@@ -47,7 +47,7 @@ elseif ($aksi == 'edit') {
     // Cek apakah kasir mengupload foto baru
     if (!empty($_FILES['foto_kondisi']['name'][0])) {
         // 1. Hapus dulu berkas file foto fisik yang lama dari folder biar ga menumpuk nyampah di PC
-        $query_lama = mysqli_query($koneksi, "SELECT foto_kondisi FROM unit_ps WHERE id = '$id'");
+        $query_lama = mysqli_query($koneksi, "SELECT foto_kondisi FROM unitps_hildan_2430511059 WHERE id = '$id'");
         $data_lama  = mysqli_fetch_assoc($query_lama);
         if (!empty($data_lama['foto_kondisi'])) {
             $array_foto_lama = explode(',', $data_lama['foto_kondisi']);
@@ -73,10 +73,10 @@ elseif ($aksi == 'edit') {
         $foto_string = implode(',', $daftar_nama_foto);
 
         // Query update beserta nama berkas foto baru
-        $query_update = "UPDATE unit_ps SET nomor_seri='$nomor_seri', jenis_ps='$jenis_ps', harga_per_jam='$harga_per_jam', status='$status', foto_kondisi='$foto_string' WHERE id='$id'";
+        $query_update = "UPDATE unitps_hildan_2430511059 SET nomor_seri='$nomor_seri', jenis_ps='$jenis_ps', harga_per_jam='$harga_per_jam', status='$status', foto_kondisi='$foto_string' WHERE id='$id'";
     } else {
         // Query update jika kasir tidak ingin mengubah foto lama
-        $query_update = "UPDATE unit_ps SET nomor_seri='$nomor_seri', jenis_ps='$jenis_ps', harga_per_jam='$harga_per_jam', status='$status' WHERE id='$id'";
+        $query_update = "UPDATE unitps_hildan_2430511059 SET nomor_seri='$nomor_seri', jenis_ps='$jenis_ps', harga_per_jam='$harga_per_jam', status='$status' WHERE id='$id'";
     }
 
     if (mysqli_query($koneksi, $query_update)) {
@@ -88,7 +88,7 @@ elseif ($aksi == 'edit') {
 
 elseif ($aksi == 'hapus') {
     $id = intval($_GET['id']);
-    $query_foto = mysqli_query($koneksi, "SELECT foto_kondisi FROM unit_ps WHERE id = '$id'");
+    $query_foto = mysqli_query($koneksi, "SELECT foto_kondisi FROM unitps_hildan_2430511059 WHERE id = '$id'");
     $data_foto  = mysqli_fetch_assoc($query_foto);
     if (!empty($data_foto['foto_kondisi'])) {
         $array_foto = explode(',', $data_foto['foto_kondisi']);
@@ -97,7 +97,7 @@ elseif ($aksi == 'hapus') {
             if (file_exists($path_file)) unlink($path_file);
         }
     }
-    $query_hapus = "DELETE FROM unit_ps WHERE id = '$id'";
+    $query_hapus = "DELETE FROM unitps_hildan_2430511059 WHERE id = '$id'";
     if (mysqli_query($koneksi, $query_hapus)) {
         echo "<script>alert('Data Unit PS Berhasil Dihapus!'); window.location.href = '../data_ps.php';</script>";
     }

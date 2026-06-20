@@ -35,7 +35,7 @@ include 'config/koneksi.php';
                     <?php
                     $no = 1;
                     // Tarik data pelanggan dari database rentalPS
-                    $query_pelanggan = mysqli_query($koneksi, "SELECT * FROM pelanggan ORDER BY id DESC");
+                    $query_pelanggan = mysqli_query($koneksi, "SELECT * FROM pelanggan_hildan_2430511059 ORDER BY id DESC");
                     
                     while ($row = mysqli_fetch_assoc($query_pelanggan)) {
                         ?>

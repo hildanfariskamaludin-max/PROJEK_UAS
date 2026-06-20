@@ -1,5 +1,5 @@
 <?php
-// Mengaktifkan session PHP untuk menyimpan status login kasir/admin
+
 session_start();
 
 // Menghubungkan ke file koneksi database
@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     // Mengambil data user berdasarkan username
-    $query  = "SELECT * FROM users WHERE username = '$username'";
+    $query  = "SELECT * FROM users_hildan_2430511059 WHERE username = '$username'";
     $result = mysqli_query($koneksi, $query);
 
     if (mysqli_num_rows($result) === 1) {

@@ -5,7 +5,7 @@
 $host     = "localhost";
 $username = "root";
 $password = ""; 
-$database = "rentalps"; 
+$database = "rentalps_hildan_2430511059"; 
 
 $koneksi = mysqli_connect($host, $username, $password, $database);
 

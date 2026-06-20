@@ -36,11 +36,11 @@ include 'config/koneksi.php';
                 </thead>
                 <tbody>
                     <?php
-                    $query_tampil = "SELECT transaksi.*, pelanggan.nama_pelanggan, unit_ps.jenis_ps 
-                                     FROM transaksi 
-                                     JOIN pelanggan ON transaksi.id_pelanggan = pelanggan.id
-                                     JOIN unit_ps ON transaksi.id_unit_ps = unit_ps.id
-                                     ORDER BY transaksi.id DESC";
+                    $query_tampil = "SELECT transaksi_hildan_2430511059.*, pelanggan_hildan_2430511059.nama_pelanggan, unitps_hildan_2430511059.jenis_ps 
+                                     FROM transaksi_hildan_2430511059 
+                                     JOIN pelanggan_hildan_2430511059 ON transaksi_hildan_2430511059.id_pelanggan = pelanggan_hildan_2430511059.id
+                                     JOIN unitps_hildan_2430511059 ON transaksi_hildan_2430511059.id_unit_ps = unitps_hildan_2430511059.id
+                                     ORDER BY transaksi_hildan_2430511059.id DESC";
                     
                     $result_tampil = mysqli_query($koneksi, $query_tampil);
 
@@ -98,7 +98,7 @@ include 'config/koneksi.php';
                         <select class="form-select" name="id_ps" required>
                             <option value=""> Pilih Unit PS </option>
                             <?php
-                            $query_ps = mysqli_query($koneksi, "SELECT * FROM unit_ps WHERE status = 'ready'");
+                            $query_ps = mysqli_query($koneksi, "SELECT * FROM unitps_hildan_2430511059 WHERE status = 'ready'");
                             while($ps = mysqli_fetch_assoc($query_ps)) {
                                 echo "<option value='".$ps['id']."'>".$ps['jenis_ps']." (".$ps['nomor_seri'].") - Rp ".number_format($ps['harga_per_jam'], 0, ',', '.')."/jam</option>";
                             }
